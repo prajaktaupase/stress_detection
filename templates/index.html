@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Detection</title>
+    <style>
+     body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    /* background-color: #212121; */
+    background: linear-gradient(20deg, #880088, #aa2068, #cc3f47, #de6f3d,  #de6f3d, #cc3f47, #aa2068, #880088) no-repeat;
+}
+
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <center><h1>Stress Detection</center></h1>
+    <form id="textForm"><center>
+        <label for="text">Enter Text:</label><br>
+        <textarea id="text" name="text" rows="15" cols="200"></textarea><br><br>
+        <input type="button" value="Submit" onclick="predict()"></center>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        function predict() {
+            var userInput = document.getElementById("text").value;
+            var formData = new FormData();
+            formData.append("text", userInput);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                document.getElementById("result").innerHTML = " " + result;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
